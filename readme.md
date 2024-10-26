@@ -45,8 +45,11 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
    ```bash
    npm install
    ```
+4. **Arquivo de importação**
 
-4. **Execute do projeto**
+   O projeto irá acessar o arquivo ***src/resources/movielist.csv*** e realizará a importação dos dados para o sqlite3, garanta que exista um arquivo com este nome e formato na pasta ***resources*** para o projeto funcionar de forma correta.
+
+5. **Execute do projeto**
 
    Execute o seguinte comando para executar o projeto:
 
@@ -54,7 +57,7 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
    npm run dev
    ```
 
-4. **Acesse documentação**
+6. **Acesse documentação**
 
    Após o projeto iniciado para acessar a documentação do Swagger deve ser acessado a seguinte URL:
 
