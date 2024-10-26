@@ -15,7 +15,7 @@ API para gerenciar filmes, produtores e estúdios do prêmio da categoria, 'Pior
 
 ## Pré-requisitos
 
-Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina. Você pode verificar se está instalado usando o seguinte comando:
+Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina. A versão utilizada no desenvolvimento do projeto é a seguinte:
 
 - [Node.js](https://nodejs.org/) (recomenda-se a versão v20.16.0)
 - [npm](https://www.npmjs.com/) (geralmente é instalado junto com o Node.js)
