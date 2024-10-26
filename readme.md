@@ -1,6 +1,5 @@
 # Golden Raspberry Awards API
 
-
 API para gerenciar filmes, produtores e estúdios do prêmio da categoria, 'Pior Filme' do Golden Raspberry Awards. Abaixo estão as instruções sobre como executar o projeto, utilizar as rotas e as ferramentas de linting.
 
 ## Tecnologias Utilizadas
@@ -30,6 +29,7 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
    ```bash
    git clone https://github.com/aldori/golden-paspberry-awards-api
    ```
+
 2. **Navegue até o diretório do projeto**
 
    Após clonar, entre no diretório do projeto:
@@ -45,9 +45,10 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
    ```bash
    npm install
    ```
+
 4. **Arquivo de importação**
 
-   O projeto irá acessar o arquivo ***src/resources/movielist.csv*** e realizará a importação dos dados para o sqlite3, garanta que exista um arquivo com este nome e formato na pasta ***resources*** para o projeto funcionar de forma correta.
+   O projeto irá acessar o arquivo **_src/resources/movielist.csv_** e realizará a importação dos dados para o sqlite3, garanta que exista um arquivo com este nome e formato na pasta **_resources_** para o projeto funcionar de forma correta.
 
 5. **Execute do projeto**
 
@@ -65,6 +66,14 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
    http://localhost:3000/docs
    ```
 
+7. **Execução dos teste**
+
+   Para execução dos testes deve ser executado o comando:
+
+   ```bash
+   npm run test
+   ```
+
 ## Scripts
 
 Os seguintes scripts estão disponíveis no projeto:
@@ -77,4 +86,3 @@ Os seguintes scripts estão disponíveis no projeto:
     "test": "jest"
 }
 ```
-
