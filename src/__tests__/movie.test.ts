@@ -1,50 +1,9 @@
 import MovieRepository from "../repositories/movie.repository";
 import { Movie } from "../models/movie.model";
-import database from "../config/db";
+import database, { setupDatabase } from "../config/db";
 
 describe("MovieRepository", () => {
-  beforeAll(async () => {
-    await database.exec(`
-      CREATE TABLE movies (
-        id_movie INTEGER PRIMARY KEY AUTOINCREMENT,
-        year INTEGER NOT NULL,
-        title TEXT NOT NULL,
-        winner BOOLEAN NOT NULL
-      )
-    `);
-
-    await database.exec(`
-      CREATE TABLE studios (
-        id_studio INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL
-      )
-    `);
-
-    await database.exec(`
-      CREATE TABLE producers (
-        id_producer INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL
-      )
-    `);
-
-    await database.exec(`
-      CREATE TABLE movie_studio (
-        movie_id INTEGER,
-        studio_id INTEGER,
-        FOREIGN KEY (movie_id) REFERENCES movies (id_movie),
-        FOREIGN KEY (studio_id) REFERENCES studios (id_studio)
-      )
-    `);
-
-    await database.exec(`
-      CREATE TABLE movie_producer (
-        movie_id INTEGER,
-        producer_id INTEGER,
-        FOREIGN KEY (movie_id) REFERENCES movies (id_movie),
-        FOREIGN KEY (producer_id) REFERENCES producers (id_producer)
-      )
-    `);
-  });
+  beforeAll(async () => await setupDatabase());
 
   afterAll(async () => {
     await database.exec("DROP TABLE movie_producer");

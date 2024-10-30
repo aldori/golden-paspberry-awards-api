@@ -1,13 +1,13 @@
 import fs from "fs";
-import fastcsv from "fast-csv";
+import { parse } from 'csv-parse';
 import path from "path";
-import MovieRepository from "src/repositories/movie.repository";
-import { Movie } from "src/models/movie.model";
-import { getArrayItems } from "src/utils/arrayFormat";
-import StudioRepository from "src/repositories/studio.repository";
-import { Studio } from "src/models/studio.model";
-import { Producer } from "src/models/producer.model";
-import ProducerRepository from "src/repositories/producer.repository";
+import MovieRepository from "../repositories/movie.repository";
+import { Movie } from "../models/movie.model";
+import { getArrayItems } from "../utils/arrayFormat";
+import StudioRepository from "../repositories/studio.repository";
+import { Studio } from "../models/studio.model";
+import { Producer } from "../models/producer.model";
+import ProducerRepository from "../repositories/producer.repository";
 
 interface IMovieCsv {
   id_movie?: number;
@@ -18,26 +18,30 @@ interface IMovieCsv {
   winner: string;
 }
 
-const importMoviesFromCSV = async (filePath: string): Promise<IMovieCsv[]> => {
+export const importMoviesFromCSV = async (filePath: string): Promise<IMovieCsv[]> => {
   const movies: IMovieCsv[] = [];
 
   return new Promise((resolve, reject) => {
-    fs.createReadStream(filePath)
-      .pipe(fastcsv.parse({ headers: true, delimiter: ";" }))
-      .on("data", (row) => {
-        movies.push(row);
-      })
-      .on("error", (error) => {
-        console.error("Error reading CSV file:", error);
-        reject(error);
-      })
-      .on("end", () => {
-        resolve(movies);
-      });
+    const parser = fs
+      .createReadStream(filePath)
+      .pipe(parse({ columns: true, delimiter: ';', skip_empty_lines: true }));
+
+    parser.on('data', (row) => {
+      movies.push(row);
+    });
+
+    parser.on('error', (error) => {
+      console.error('Error reading CSV file:', error);
+      reject(error);
+    });
+
+    parser.on('end', () => {
+      resolve(movies);
+    });
   });
 };
 
-const insertData = async (movies: IMovieCsv[]) => {
+export const insertData = async (movies: IMovieCsv[]) => {
   const studiosSet = new Set<string>();
   const producersSet = new Set<string>();
 
@@ -88,9 +92,7 @@ const insertData = async (movies: IMovieCsv[]) => {
 
 export const importData = async () => {
   try {
-    const __filename = new URL(import.meta.url).pathname;
-    const __dirname = path.dirname(__filename);
-    const csvFilePath = path.resolve(__dirname, "../resources/movielist.csv");
+    const csvFilePath = path.resolve("src/resources/movielist.csv");
     const movies = await importMoviesFromCSV(csvFilePath);
     insertData(movies);
   } catch (error) {

@@ -67,7 +67,6 @@ export default class ProducerRepository {
           });
 
           const producersArray = Object.values(producers);
-
           const producersInterval = producersArray.map(
             ({ producer, movies }) => {
               const years = movies
@@ -76,32 +75,39 @@ export default class ProducerRepository {
 
               let maxInterval = 0;
               let minInterval = Infinity;
-              let closestYearsMax: IAwardGapYears = {
-                previousWin: null,
-                followingWin: null,
-              };
-              let closestYearsMin: IAwardGapYears = {
-                previousWin: null,
-                followingWin: null,
-              };
+
+              const closestYearsMax: IAwardGapYears[] = [];
+              const closestYearsMin: IAwardGapYears[] = [];
 
               for (let i = 0; i < years.length - 1; i++) {
                 const interval = years[i + 1] - years[i];
 
                 if (interval > maxInterval) {
                   maxInterval = interval;
-                  closestYearsMax = {
+                  closestYearsMax.length = 0;
+                  closestYearsMax.push({
                     previousWin: years[i],
                     followingWin: years[i + 1],
-                  };
+                  });
+                } else if (interval === maxInterval) {
+                  closestYearsMax.push({
+                    previousWin: years[i],
+                    followingWin: years[i + 1],
+                  });
                 }
 
                 if (interval < minInterval) {
                   minInterval = interval;
-                  closestYearsMin = {
+                  closestYearsMin.length = 0;
+                  closestYearsMin.push({
                     previousWin: years[i],
                     followingWin: years[i + 1],
-                  };
+                  });
+                } else if (interval === minInterval) {
+                  closestYearsMin.push({
+                    previousWin: years[i],
+                    followingWin: years[i + 1],
+                  });
                 }
               }
 
@@ -130,18 +136,22 @@ export default class ProducerRepository {
           );
 
           const result: IProducerAwardsGaps = {
-            min: producersWithMinInterval.map((item) => ({
-              producer: item.producer,
-              interval: item.minInterval,
-              previousWin: item.closestYearsMin.previousWin,
-              followingWin: item.closestYearsMin.followingWin,
-            })),
-            max: producersWithMaxInterval.map((item) => ({
-              producer: item.producer,
-              interval: item.maxInterval,
-              previousWin: item.closestYearsMax.previousWin,
-              followingWin: item.closestYearsMax.followingWin,
-            })),
+            min: producersWithMinInterval.flatMap((item) =>
+              item.closestYearsMin.map((years) => ({
+                producer: item.producer,
+                interval: item.minInterval,
+                previousWin: years.previousWin,
+                followingWin: years.followingWin,
+              }))
+            ),
+            max: producersWithMaxInterval.flatMap((item) =>
+              item.closestYearsMax.map((years) => ({
+                producer: item.producer,
+                interval: item.maxInterval,
+                previousWin: years.previousWin,
+                followingWin: years.followingWin,
+              }))
+            ),
           };
 
           resolve(result);
@@ -164,7 +174,7 @@ export default class ProducerRepository {
       });
     });
   }
-
+  
   static async findById(id: number): Promise<Producer | null> {
     return new Promise((resolve, reject) => {
       database.get(

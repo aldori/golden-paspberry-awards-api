@@ -8,7 +8,7 @@ API para gerenciar filmes, produtores e estúdios do prêmio da categoria, 'Pior
 - **TypeScript**: Linguagem que adiciona tipagem ao JavaScript.
 - **Express**: Framework para construir aplicações web em Node.js.
 - **sqlite3**: Banco de dados relacional em memória.
-- **fast-csv**: Importação de dados de arquivo CSV.
+- **csv-parse**: Importação de dados de arquivo CSV.
 - **Swagger**: Para documentação da API.
 - **ESLint**: Ferramenta para análise de código e linting.
 - **jest**: Ferramenta responsável pela execução dos testes.
